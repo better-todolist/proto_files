@@ -39,7 +39,7 @@ message Interrupt{
     optional string progressPath = 2;
     InterruptType ty = 3;
     optional ObserveMode observeMode = 4;
-    optional string intpMessage = 5;
+    optional string message = 5;
 }
 
 enum WhiteListUpdateMode{
