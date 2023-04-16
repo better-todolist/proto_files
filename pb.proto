@@ -1,11 +1,11 @@
-    syntax = "proto3";
+syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
 package BreakMe;
 
-service BreakMeService{
-    rpc FetchAllIntrupt(google.protobuf.Empty) returns (IntruptInfo){}
+service BreakMe{
+    rpc FetchAllIntrupt(google.protobuf.Empty) returns (IntpList){}
     rpc CreateIntrupt(IntruptInfo) returns (CreateResp){}
     
     rpc FetchConfig(google.protobuf.Empty) returns (Config){}
@@ -33,6 +33,10 @@ enum ObserveMode{
     Process=1;
     Thread=2;
     TitleName=3;
+}
+
+message IntpList{
+    map<string, IntruptInfo> all_info = 1;
 }
 
 message IntruptInfo{
