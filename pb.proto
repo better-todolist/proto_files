@@ -5,17 +5,11 @@ import "google/protobuf/empty.proto";
 package BreakMe;
 
 service BreakMe{
-    rpc FetchAllIntrupt(google.protobuf.Empty) returns (IntpList){}
-    rpc CreateIntrupt(IntruptInfo) returns (CreateResp){}
+    rpc FetchAllInterrupt(google.protobuf.Empty) returns (InterruptList){}
+    rpc CreateInterrupt(Interrupt) returns (CreateResp){}
     
     rpc FetchConfig(google.protobuf.Empty) returns (Config){}
     rpc UpdateConfig(SetConfigReq) returns (SetConfigResp){}
-}
-
-
-
-message AllIntp{
-    repeated IntruptInfo list = 1;
 }
 
 message CreateResp{
@@ -23,23 +17,23 @@ message CreateResp{
     string intpId = 2;
 }
 
-enum IntpType{
-    Notify =0;
-    PopUp =1;
+enum InterruptType{
+    Notify = 0;
+    PopUp = 1;
 }
 
 enum ObserveMode{
-    Executable=0;
-    Process=1;
-    Thread=2;
-    TitleName=3;
+    Executable = 0;
+    Process = 1;
+    Thread = 2;
+    TitleName = 3;
 }
 
-message IntpList{
+message InterruptList{
     map<string, IntruptInfo> all_info = 1;
 }
 
-message IntruptInfo{
+message Interrupt{
     // min : 1:30
     int32 intpTime = 1;
     optional string intpProgressPath = 2;
@@ -49,8 +43,8 @@ message IntruptInfo{
 }
 
 enum WhiteListUpdateMode{
-    Overwrite=0;
-    Append=1;
+    Overwrite = 0;
+    Append = 1;
 }
 
 message WhiteList{
@@ -76,5 +70,5 @@ message Config{
     // ms
     int64 leaveTimeBound = 2;
     
-    int32 muitlTaskNum = 3;
+    int32 multiTaskNum = 3;
 }
