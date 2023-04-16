@@ -1,67 +1,115 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
 
 package BreakMe;
-
+// Break Me service 
 service BreakMe{
+    // 获取全部的打断器信息
     rpc FetchAllInterrupt(google.protobuf.Empty) returns (InterruptList){}
+    // 创建新的打断器
     rpc CreateInterrupt(Interrupt) returns (CreateResp){}
+    // 启动指定 Id 的 打断器
+    rpc StartInterrupt(InterruptUid) returns (OperateResp){}
+    // 更新指定打断器，直接替换
+    rpc UpdateInterrupt(EditedInterrupt) returns (OperateResp){}
+    // 删除指定打断器
+    rpc RemoveInterrupt(InterruptUid) returns (OperateResp){}
     
+    // 获取全局配置信息
     rpc FetchConfig(google.protobuf.Empty) returns (Config){}
-    rpc UpdateConfig(SetConfigReq) returns (SetConfigResp){}
+    // 更新全局配置信息
+    rpc UpdateConfig(SetConfigReq) returns (OperateResp){}
 }
 
+// 更新指定打断器
+message EditedInterrupt{
+    // 打断器的ID
+    string guid = 1;
+    // 新的打断器
+    Interrupt new = 2;
+}
+
+// 打断器ID
+message InterruptUid{
+    string guid = 1;
+}
+
+// 新建打断器响应
 message CreateResp{
+    // 新建成功，此时Guid 才有意义
     bool isSuccess = 1;
-    string intpId = 2;
+    // 新建成功后的 GUID
+    string guid = 2;
 }
 
+// 打断方式
 enum InterruptType{
+    // 通知
     Notify = 0;
+    // 弹窗
     PopUp = 1;
 }
 
+// 打断器观察模式
 enum ObserveMode{
+    // 相同可执行文件为同一任务
     Executable = 0;
+    // 相同进程为同一任务
     Process = 1;
+    // 相同线程，相同进程为同一任务
     Thread = 2;
+    // 相同窗口标题为同一任务
     TitleName = 3;
 }
 
+// 所有打断器
 message InterruptList{
+    // 所有打断器的集合，key 为 guid, value 为打断器信息
     map<string, Interrupt> all_info = 1;
 }
 
+// 打断器信息
 message Interrupt{
     // min : 1:30
+    // 打断时间， 30分钟为最小；值为 【监控时间(分钟)】/ 30
     int32 time = 1;
+    // 目标程序路径，如果为空字符串为未提供
     optional string progressPath = 2;
+    // 打断方式， 默认为 Notify
     InterruptType ty = 3;
-    optional ObserveMode observeMode = 4;
+    // 监控模式， 默认为 Executable
+    ObserveMode observeMode = 4;
+    // 打断时发送的信息， 如果为空字符串则视为空
     optional string message = 5;
 }
 
+// 白名单更新模式
 enum WhiteListUpdateMode{
+    // 替换
     Overwrite = 0;
+    // 附加
     Append = 1;
 }
 
+// 白名单更新
 message WhiteList{
+    // 更新的白名单列表
     repeated string prgressPathList = 1;
+    // 更新模式
     WhiteListUpdateMode mode = 2;
 }
 
-
+// 更新全局配置
 message SetConfigReq{
+    // 白名单
     optional WhiteList whiteList = 1;
-    // ms
+    // ms，离开后连续监控时间，以ms 为单位
     optional int64 leaveTimeBound = 2;
-    
-    optional int32 muitlTaskNum = 3;
+    // 多任务监控
+    optional int32 multiTaskNum = 3;
 }
 
-message SetConfigResp{
+message OperateResp{
     bool isSuccess = 1;
 }
 
@@ -72,3 +120,5 @@ message Config{
     
     int32 multiTaskNum = 3;
 }
+
+message Empty{}
