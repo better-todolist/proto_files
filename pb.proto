@@ -5,7 +5,7 @@ package BreakMe;
 // Break Me service 
 service BreakMe{
     // 获取全部的打断器信息
-    rpc FetchAllInterrupt(google.protobuf.Empty) returns (InterruptList){}
+    rpc FetchAllInterrupt(Empty) returns (InterruptList){}
     // 创建新的打断器
     rpc CreateInterrupt(Interrupt) returns (CreateResp){}
     // 启动指定 Id 的 打断器
@@ -16,7 +16,7 @@ service BreakMe{
     rpc RemoveInterrupt(InterruptUid) returns (OperateResp){}
     
     // 获取全局配置信息
-    rpc FetchConfig(google.protobuf.Empty) returns (Config){}
+    rpc FetchConfig(Empty) returns (Config){}
     // 更新全局配置信息
     rpc UpdateConfig(SetConfigReq) returns (OperateResp){}
 }
