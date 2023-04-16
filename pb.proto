@@ -30,14 +30,14 @@ enum ObserveMode{
 }
 
 message InterruptList{
-    map<string, IntruptInfo> all_info = 1;
+    map<string, Interrupt> all_info = 1;
 }
 
 message Interrupt{
     // min : 1:30
-    int32 intpTime = 1;
-    optional string intpProgressPath = 2;
-    IntpType intpTy = 3;
+    int32 time = 1;
+    optional string progressPath = 2;
+    InterruptType ty = 3;
     optional ObserveMode observeMode = 4;
     optional string intpMessage = 5;
 }
