@@ -24,3 +24,14 @@ protoc -I ./ ./pb.proto --dart_out=grpc:../lib/src/dart_gen
 ```
 
 [dart grpc](https://grpc.io/docs/languages/dart/)
+
+
+## Add Proto file as Submodule
+
+- add
+
+```shell
+git submodule add -- git@github.com:better-todolist/proto_files.git .\Protos\pb
+```
+
+- update ``git submodule foreach git pull``
