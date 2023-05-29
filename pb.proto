@@ -19,6 +19,8 @@ service BreakMe{
     rpc FetchConfig(Empty) returns (Config){}
     // 更新全局配置信息
     rpc UpdateConfig(SetConfigReq) returns (OperateResp){}
+
+    rpc ShowNotify(TestShowNotify)returns(Empty){}
 }
 
 // 更新指定打断器
@@ -122,3 +124,7 @@ message Config{
 }
 
 message Empty{}
+
+message TestShowNotify{
+    string message = 1;
+}
